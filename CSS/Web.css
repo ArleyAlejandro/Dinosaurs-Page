@@ -3,67 +3,45 @@
 	src: url(../fuentes/median/Median.otf);
 }
 
-#closeSession {
-  position: relative;
-  background: #14d7df;
-  color: #000;
-  margin: 10px auto;
-  border-radius: 10px;
-  width: 150px;
-  height: 25px;
-  font-size: 17px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+.img-sesion{
+    display: grid;
+    justify-content: end;
+    justify-items: center;
+    align-items: center;
+}
+.perfil-img{
+    width: 63px;
+    height: auto;
+    margin:0;
+    border-radius: 50%;
+}
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
 }
 
-#closeSession a {
-  color: inherit;
-  text-decoration: none;
+.logout-btn {
+    background-color: blue;
+    color: white;
+    padding: 0px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    grid-column: 2;
+    grid-row: 2;
+    height: 20px;
+    margin-bottom: 15px;
 }
 
-.tooltip {
-  position: absolute;
-  top: 0;
-  font-size: 14px;
-  background: #ffffff;
-  color: #ffffff;
-  padding: 5px 8px;
-  border-radius: 5px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+.logout-btn:hover {
+    background-color: aqua; /* Rojo más oscuro al pasar el ratón */
 }
 
-.tooltip::before {
-  position: absolute;
-  content: "";
-  height: 8px;
-  width: 8px;
-  background: #ffffff;
-  bottom: -3px;
-  left: 50%;
-  transform: translate(-50%) rotate(45deg);
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-#closeSession:hover .tooltip {
-  top: -45px;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-#closeSession:hover,
-#closeSession:hover .tooltip,
-#closeSession:hover .tooltip::before {
- background: linear-gradient(320deg, #14d7df, rgb(0, 60, 255));
-  color: #ffffff;
+.logout-btn:focus {
+    outline: none; /* Quitar el borde azul al hacer clic */
 }
 
 body {
@@ -71,6 +49,11 @@ body {
 	margin: 0;
 }
 
+.login{
+ 	background-image: url('../IMG/fondo-login.jpeg');
+ 	 background-size: cover;
+  
+}
 /*contenedor de la pagina*/
 .contenedor {
 	box-shadow: 0 1em 2em 0 #0008;
@@ -347,11 +330,11 @@ tbody td {
 	padding: 5px;
 }
 
-tbody td.bgRed{
+tbody td.bgRed {
 	background-color: #ef2929;
 }
 
-tbody td.bgGreen{
+tbody td.bgGreen {
 	background-color: #4e9a06;
 }
 
@@ -455,15 +438,16 @@ div.lista>ol>li>a {
 	display: flex;
 	width: 3em;
 }
-.forms{
-    border-radius: 5px;
-    margin: 0 20px;
-    background-color: #3d6e7a;
-    color: white;
-    box-shadow: 0 0.7em 1em 0 #0008;
-    border: solid 1px black;
-    padding: 0;
-    padding: 2px;
+
+.forms {
+	border-radius: 5px;
+	margin: 0 20px;
+	background-color: #3d6e7a;
+	color: white;
+	box-shadow: 0 0.7em 1em 0 #0008;
+	border: solid 1px black;
+	padding: 0;
+	padding: 2px;
 }
 
 .boton-retorno {
@@ -517,16 +501,16 @@ p a:hover {
 	width: 100%;
 }
 
-@keyframes animacion-header {
-    0% {
-        background-color: #1f3d46;
-        color: white;
-    }
+@keyframes animacion-header { 
+	0% {
+	background-color: #1f3d46;
+	color: white;
+	}
 
-    50% {
-        background-color: #60c8e7;
-        color: black;
-    }
+	50% { 
+	background-color:#60c8e7;
+	color:black;
+	}
 }
 
 @media only screen and (max-width: 950px) {
@@ -584,13 +568,17 @@ p a:hover {
 	}
 }
 
-.bolsa {table { margin:1em auto;
+.bolsa {
+	display: grid;
+		table {
+	 margin:1em auto;
 	
 }
 
 aside {
 	width: 530px;
 	margin: 1em auto;
+	grid-row:1;
 }
 
 form {
@@ -613,5 +601,156 @@ form {
 	border-color: #2e752e;
 	color: #f0f0f0;
 	cursor: pointer;
+}
+
+}
+
+.form {
+	margin: 100px auto;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	max-width: 350px;
+	padding: 20px;
+	border-radius: 20px;
+	position: relative;
+	background-color: #1a1a1a;
+	color: #fff;
+	border: 1px solid #333;
+}
+
+.title {
+	font-size: 28px;
+	font-weight: 600;
+	letter-spacing: -1px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding-left: 30px;
+	color: #00bfff;
+}
+
+.title::before {
+	width: 18px;
+	height: 18px;
+}
+
+.title::after {
+	width: 18px;
+	height: 18px;
+	animation: pulse 1s linear infinite;
+}
+
+.title::before, .title::after {
+	position: absolute;
+	content: "";
+	height: 16px;
+	width: 16px;
+	border-radius: 50%;
+	left: 0px;
+	background-color: #00bfff;
+}
+
+.message, .signin {
+	font-size: 14.5px;
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.signin {
+	text-align: center;
+	padding:0;
+	
+}
+
+.signin a:hover {
+	color:white;
+}
+
+.signin a {
+	color: #00bfff;
+}
+
+.flex {
+	display: flex;
+	width: 100%;
+	gap: 6px;
+}
+
+.form label {
+	position: relative;
+}
+
+.form label .input {
+	background-color: #333;
+	color: #fff;
+	width: 100%;
+	padding: 20px 05px 05px 10px;
+	outline: 0;
+	border: 1px solid rgba(105, 105, 105, 0.397);
+	border-radius: 10px;
+}
+
+.form label .input+span {
+	color: rgba(255, 255, 255, 0.5);
+	position: absolute;
+	left: 10px;
+	top: 15px;
+	font-size: 1em;
+	cursor: text;
+	transition: 0.3s ease;
+}
+
+/* Ajustes para la animación de las etiquetas flotantes */
+.form label .input:not(:placeholder-shown)+span {
+    color: #00bfff;
+    top: 0px;
+    font-size: 0.7em;
+    font-weight: 600;
+}
+
+/* Mantén el diseño para el estado focus */
+.form label .input:focus+span {
+    color: #00bfff;
+    top: 0px;
+    font-size: 0.7em;
+    font-weight: 600;
+}
+
+
+.input {
+	font-size: medium;
+}
+
+.input::placeholder {
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+}
+
+.input:focus::placeholder {
+    opacity: 1;
+}
+
+.submit {
+	border: none;
+	outline: none;
+	padding: 10px;
+	border-radius: 10px;
+	color: #fff;
+	font-size: 16px;
+	transform: .3s ease;
+	background-color: #00bfff;
+}
+
+.submit:hover {
+	background-color: #00bfff96;
+}
+
+@keyframes pulse {from { transform:scale(0.9);
+	opacity: 1;
+}
+
+to {
+	transform: scale(1.8);
+	opacity: 0;
 }
 }

@@ -1,4 +1,13 @@
- <!DOCTYPE html>
+<?php 
+session_start(); 
+// Verificar si el usuario está logueado
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +21,7 @@
 session_start();
 
 // Manejo del idioma en la sesión y cookie
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idioma'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idioma'])) { 
     $idioma = $_POST['idioma'];
     $_SESSION['idioma'] = $idioma;
     setcookie('idioma', $idioma, time() + (86400 * 30), "/");

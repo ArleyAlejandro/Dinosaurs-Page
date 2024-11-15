@@ -1,152 +1,4 @@
-<?php
-$formDisplay = 'style="display: block;"';
-$nombreError = $passwordError = $emailError = $comentariosError = "";
-
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $userLog = false;
-
-    function sanatizar($datos)
-    {
-        // Eliminar espacios en blanco (también conocido como trim)
-        $datos = trim($datos);
-        // Eliminar barras invertidas
-        $datos = stripslashes($datos);
-        // Convertir caracteres especiales a entidades HTML
-        $datos = htmlspecialchars($datos, ENT_QUOTES, 'UTF-8');
-        return $datos;
-    }
-
-    // Comprobar si no se ha rellenado el campo obligatorio para mostrar mensajes de error
-    if (empty($_POST["nombre"])) {
-        $nombreError = "Este campo es obligatorio";
-        // Si se ha rellenado, limpio los datos de posibles entradas maliciosas
-    } else {
-        $nombre = sanatizar($_POST['nombre']);
-    }
-
-    function validarContrasena($contrasena)
-    {
-        // Validar longitud mínima de 8 caracteres
-        if (strlen($contrasena) < 8) {
-            return false;
-        }
-        // Validar si contiene al menos una letra mayúscula
-        if (! preg_match('/[A-Z]/', $contrasena)) {
-            return false;
-        }
-        // Validar si contiene al menos una letra minúscula
-        if (! preg_match('/[a-z]/', $contrasena)) {
-            return false;
-        }
-        // Validar si contiene al menos un número
-        if (! preg_match('/[0-9]/', $contrasena)) {
-            return false;
-        }
-        // Validar si contiene al menos un carácter especial
-        if (! preg_match('/[\W_]/', $contrasena)) {
-            return false;
-        }
-
-        // Si cumple con todos los requisitos, devuelve true
-        return true;
-    }
-    // Comprobar si no se ha rellenado el campo obligatorio para mostrar mensajes de error
-    if (empty($_POST["password"])) {
-        $passwordError = "Este campo es obligatorio";
-    } elseif (! validarContrasena($_POST["password"])) {
-        $passwordError = "Contraseña inválida";
-        $password = "";
-    } else {
-        $password = sanatizar($_POST['password']);
-    }
-
-    // Comprobar si no se ha rellenado el campo obligatorio para mostrar mensajes de error
-    if (empty($_POST["email"])) {
-        $emailError = "Este campo es obligatorio";
-        // Si se ha rellenado, limpio los datos de posibles entradas maliciosas
-    } else {
-        $email = sanatizar($_POST['email']);
-        // Comprobar que el email es válido
-        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailError = "Email inválido";
-        }
-    }
-
-    $fecha = sanatizar($_POST['birthday']);
-    $comentarios = sanatizar($_POST['comentarios']);
-
-    // Comprobar si no se ha rellenado el campo obligatorio para mostrar mensajes de error
-    if (empty($_POST["comentarios"])) {
-        $comentariosError = "Este campo es obligatorio";
-        // Si se ha rellenado, limpio los datos de posibles entradas maliciosas
-    } else {
-        $comentarios = sanatizar($_POST['comentarios']);
-    }
-
-    // Guardar la fecha y hora de envio del formulario
-    $fecha = date("j/m/Y h:i a");
-
-    // Crear contenido XML
-    $contenidoXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    $contenidoXML .= "<datos>\n";
-    $contenidoXML .= "  <nombre>" . $nombre . "</nombre>\n";
-    $contenidoXML .= "  <password>" . $password . "</password>\n";
-    $contenidoXML .= "  <email>" . $email . "</email>\n";
-    $contenidoXML .= "  <fechaNacimiento>" . $fecha . "</fechaNacimiento>\n";
-    $contenidoXML .= "  <comentarios>" . $comentarios . "</comentarios>\n";
-    $contenidoXML .= "  <fechaDeEnvio>" . $fecha . "</fechaDeEnvio>\n";
-    $contenidoXML .= "</datos>\n";
-
-    // Guardar el nombre del fichero en una variable, para abrirlo y escribir en él
-    $filename = './usuario.xml';
-
-    /**
-     * Función para escribir los datos introducidos en un fichero
-     *
-     * @param string $fichero
-     *            Fichero donde se guardarán los datos
-     * @param mixed $contenido
-     *            Contenido a escribir en el fichero
-     */
-    function escribeFichero($fichero, $contenido)
-    {
-        // Intentar abrir el archivo si es escribible, o crearlo si no existe
-        if (is_writable($fichero) || ! file_exists($fichero)) {
-            // Abrir en modo de escritura (creará el archivo si no existe)
-            $ficheroPuntero = fopen($fichero, 'w');
-            // Escribir en el fichero
-            fwrite($ficheroPuntero, $contenido);
-            // Cerrar en el fichero
-            fclose($ficheroPuntero);
-        } else {
-            echo "El archivo $fichero no es escribible";
-        }
-    }
-
-    // Mostrar mensaje según si se han rellenado o no los campos obligatorios
-    $mensaje = (empty($nombreError) && empty($passwordError) && empty($emailError) && empty($comentariosError)) ? "Formulario enviado correctamente." : "Campos obligatorios no rellenados";
-    echo "<script>alert('$mensaje');</script>";
-
-    // Solo guardar los datos si no hay errores, para evitar contenido malicioso
-    if (empty($nombreError) && empty($passwordError) && empty($emailError) && empty($comentariosError)) {
-        // Escribir la información del formulario en el fichero xml
-        escribeFichero($filename, $contenidoXML);
-        // Al enviar el formulario vacío los camposSSS
-        $nombre = $apellido = $email = $fecha = $comentarios = "";
-        $userLog = true;
-    }
-
-    if ($userLog) {
-        $formDisplay = 'style="display: none;"';
-        $formButton = '<div class="uiverse" id="closeSession"><span class="tooltip">Adios!!</span>
-                       <a href="Home.php">Cerrar sesión</a></div>';
-    }
-}
-?>
-
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -203,7 +55,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 								<li><a href="Home3.php#tabla-2">Tabla de Hervívoros</a></li>
 								<li><a href="Home3.php#legado-des">Legado y Descubrimientos</a></li>
 							</ul></li>
-						<li><a href="bolsa.php">Bolsa</a>
+						<li><a href="login.php">Login</a>
+						<ul>
+						<li><a href="registro.php">Registro</a></li>
+						</ul>
+						</li>
+						<li><a href="bolsa.php">Bolsa</a></li>
 					
 					</ul>
 				</nav>
@@ -212,6 +69,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 		<div class="menu-principal">
 			<main>
+		<?php if (isset($_SESSION['usuario'])): ?>
+            <div class="img-sesion">
+                <span><?php echo htmlspecialchars($_SESSION['usuario']); ?> <?php echo htmlspecialchars($_SESSION['apellidos']); ?></span>
+                <img src="<?= $_SESSION['imagen'] ?? '../IMG/por-defecto-perfil-img.webp' ?>" alt="Imagen de perfil" class="perfil-img">
+                <a href="logout.php" class="logout-btn">Cerrar sesión</a>
+            </div>
+        <?php else: ?>
+            <p style="text-align: right; margin: 10px;">No has iniciado sesión.</p>
+        <?php endif; ?>
+
 				<h2>Introducción</h2>
 				<p>
 					Los dinosaurios, criaturas fascinantes y majestuosas que poblaron
@@ -259,74 +126,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 				</p>
 				<img src="../IMG/pangea2.webp" alt="Pangea" class="img-home1">
 			</main>
-
-			<aside>
-			<?php echo $formButton ?? ''?>
-				<!-- Este div es oara poder darle propiedades al formulario en conjunto con el h3 -->
-				<div class="formulario" <?php echo $formDisplay?>>
-					<h3 id="form">Login</h3>
-					<p class="forms">Iniciar sesión</p>
-					<form action="#" method="post" id="registro">
-						<fieldset>
-							<legend>Datos Básicos</legend>
-							<div class="label-field">
-								<input type="text" name="nombre" id="usuario-nombre"
-									autofocus="autofocus" value="<?php echo $nombre; ?>"> <label
-									for="usuario-nombre">Nombre:<span style="color: red;">(*)</span>
-								 <?php if (!empty($nombreError)) { echo '<span class="error" style="white-space: nowrap; color: red;">' . $nombreError . '</span>'; } ?></label>
-							</div>
-							<div class="label-field">
-								<input type="password" name="password" id="usuario-password"
-									value="<?php echo $password; ?>"> <label for="usuario-password">Contraseña:<span
-									style="color: red;">(*)</span> <span class="error"
-									style="white-space: nowrap; color: red;"><?php echo $passwordError; ?></span></label>
-							</div>
-							<div class="label-field">
-								<input type="text" name="email" id="usuari"
-									value="<?php echo $email; ?>"> <label for="usuari">Email:<span
-									style="color: red;">(*)</span> <span class="error"
-									style="white-space: nowrap; color: red;"><?php echo $emailError; ?></span></label></label>
-							</div>
-							<div class="label-field">
-								<input type="date" id="birthday" name="birthday"
-									value="<?php echo $fecha; ?>"> <label for="birthday">Fecha de
-									Nacimiento:</label>
-							</div>
-						</fieldset>
-
-						<fieldset>
-							<legend>Feedback</legend>
-							<div class="label-field">
-								<textarea id="comentarios" name="comentarios" maxlength="255"><?php echo htmlspecialchars($comentarios); ?></textarea>
-								<label for="comentarios">Háblanos sobre ti:<span
-									style="color: red;">(*)</span> <span class="error"
-									style="white-space: nowrap; color: red;"><?php echo $comentariosError; ?></span></label></label></label>
-							</div>
-						</fieldset>
-						<footer>
-							<input type="submit" value="enviar">
-						</footer>
-					</form>
-				</div>
-
-
-				<div class="lista">
-					<h2 id="populares">Populares</h2>
-					<ol>
-						<li><a href="Hom2.php#Spinosaurus">Spinosaurus</a></li>
-						<li><a href="Hom2.php#Giganotosaurus">Giganotosaurus</a></li>
-						<li><a href="Hom2.php#Tyrannosaurus">Tyrannosaurus</a></li>
-						<li><a href="Hom2.php#Triceratops">Triceratops</a></li>
-						<li><a href="Hom2.php#Stegosaurus">Stegosaurus</a></li>
-						<li><a href="Hom2.php#Ankylosaurus">Ankylosaurus</a></li>
-						<li><a href="Hom2.php#Diplodocus">Diplodocus</a></li>
-						<li><a href="Hom2.php#Suchomimus">Suchomimus</a></li>
-						<li><a href="Hom2.php#Pterodáctilos">Pterodáctilos</a></li>
-						<li><a href="Hom2.php#Archaeopteryx">Archaeopteryx</a></li>
-					</ol>
-				</div>
-
-			</aside>
 		</div>
 		<section id="origen">
 			<h2>Orígen y Evolución</h2>
