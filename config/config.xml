@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuracio>
+	<base_de_dades>
+		<host>localhost</host>
+		<db_name>myweb</db_name>
+		<port>3006</port>
+	</base_de_dades>
+</configuracio>
