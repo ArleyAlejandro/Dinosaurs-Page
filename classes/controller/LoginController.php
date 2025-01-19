@@ -8,6 +8,7 @@ class LoginController
 
     public function show($params = null)
     {
+
         $vlogin = new LoginView();
         $vlogin->show();
 
@@ -53,15 +54,9 @@ class LoginController
         }else{
 
             $_SESSION['usuario_logueado'] = true;
-            $_SESSION['usuario'] = $params["email"];
-            $_SESSION['contraseña'] = $params["contrasenya"];
             $_SESSION['nombre'] = $consultaPass->nombre . " " . $consultaPass->apellidos;
-          
-            $actualizarEstado = new AdminUser();
-            $data = ["email"     =>  $_SESSION['usuario']];
 
-            $actualizarEstado->edit($data);
-            
+           
 
             header('Location: index.php');
         }

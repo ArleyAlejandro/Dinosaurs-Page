@@ -23,7 +23,7 @@ class ConfirmacionView {
    <div class="container">
         <h1>¡Registro Exitoso!</h1>
         <p>Gracias por registrarte en nuestra plataforma. Para completar tu registro, por favor confirma tu dirección de correo electrónico haciendo clic en el siguiente enlace:</p>
-        <a href="?login/show" class="btn-confirm">Confirmar mi correo</a>
+        <a href="index.php?confirmacion/confirmarCorreo" class="btn-confirm">Confirmar mi correo</a>
     </div>
 </body>
             

@@ -6,10 +6,11 @@ session_start();
 define("__ROOT__", __DIR__ . "/../");
 include "../assets/functions.php";
 
-echo "Usuario: " . $_SESSION['usuario'] . "<br>";
-echo "Contraseña: " . $_SESSION['contraseña'] . "<br>";
-echo "Usuario logueado: " . $_SESSION['usuario_logueado'] . "<br>";
-echo "nombre completo: ". $_SESSION['nombre'] . "<br>";
+// echo "Usuario: " . $_SESSION['usuario'] . "<br>";
+// echo "Contraseña: " . $_SESSION['contraseña'] . "<br>";
+// echo "Usuario logueado: " . $_SESSION['usuario_logueado'] . "<br>";
+// echo "nombre completo: ". $_SESSION['nombre'] . "<br>";
+// echo $_SESSION['$registro_completado'];
 
 function my_autoload($classe)
 {

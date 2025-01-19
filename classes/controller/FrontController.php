@@ -22,9 +22,14 @@ class FrontController {
                     $url = explode("/", $url);
                     if (isset($url[0])) {
                         $controller_name = ucwords($url[0]);
-                        if (isset($url[1])) {
+                        
+                        
+                        if ($controller_name == "Confirmacion" && isset($url[1]) && $url[1] == "confirmarCorreo") {
+                            $action = "confirmarCorreo";
+                        } else if (isset($url[1])) {
                             $action = $url[1];
                         }
+
                         if (count($url) > 2) {
                             for ($i=2; $i<count($url); $i++) {
                                 $params[] = strtolower($url[$i]);

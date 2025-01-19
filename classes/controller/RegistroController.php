@@ -184,6 +184,7 @@ class RegistroController
 
         // Si no existen errores guardo los datos en la base de datos
         if (empty($registro->errors)) {
+
             $data = [
                 "name"      => $registro->__get("nom"),
                 "lastName"  => $registro->__get("cognoms"),
@@ -202,14 +203,19 @@ class RegistroController
                 "image"     => $_SESSION['imagen'],
             ];
 
+            // Instancia para insertrar los datos en la base de datos
             $admin = new AdminUser();
             $admin->set($data);
 
+            // Redirigir a la página de confirmación
             $vConfirmacion = new ConfirmacionView();
             $vConfirmacion->show();
 
+            // Guardar los datos de sesión
+            $_SESSION['usuario'] = $params["email"];
+            $_SESSION['contraseña'] = $params["contrasenya"];
+
         } else {
-            // Mostrar el formulario con los errores
             $vReg = new RegistroView();
             $vReg->form($registro);
         }
