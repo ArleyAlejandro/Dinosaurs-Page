@@ -5,13 +5,17 @@ class RegistroModel{
     private $nom;
     private $cognoms;
     private $usuari;
+    private $email;
     private $contrasenya;
     private $confirma_contrasenya;
-    private $dni;
+    private $tipoID;
+    private $num_id;
     private $data_naixement;
     private $sexe;
-    private $codi_postal;
+    private $provincia;
     private $poblacio;
+    private $direccion;
+    private $codi_postal;
     private $telefon;
     public $errors = []; 
     

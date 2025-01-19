@@ -17,16 +17,10 @@ class LoginView{
                     <form class="form" method="post" action="">
                         <p class="title">Login</p>
                             
-                        <!-- Nombre -->
+                        <!-- Email -->
                         <label>
-                            <input class="input" type="text" name="nom" placeholder="Nombre">
-                            <span>Nombre<span style="color:red;"> (*)</span></span>
-                        </label>
-                            
-                        <!-- Apellidos -->
-                        <label>
-                            <input class="input" type="text" name="cognoms" placeholder="Apellidos">
-                            <span>Apellidos<span style="color:red;"> (*)</span></span>
+                            <input class="input" type="text" name="email" placeholder="Correo">
+                            <span>Email<span style="color:red;"> (*)</span></span>
                         </label>
                             
                         <!-- Contraseña -->
@@ -50,8 +44,7 @@ class LoginView{
     }
     public function form(LoginModel $login){
         
-        $name = $login ->__get("nom");
-        $lastName = $login ->__get("cognoms");
+        $email = $login ->__get("email");
         $pass= $login ->__get("contrasenya");
         
         $errors = $login ->errors;
@@ -69,23 +62,15 @@ class LoginView{
 <body class="login">
     <form class="form" method="POST">
         <p class="title">Login</p>
-
-        <!-- Nombre -->
+    
+        <!-- Email -->
         <label>
-            <input class="input" type="text" name="nom" placeholder="Nombre" value="<?= htmlspecialchars($name) ?>">
-            <span>Nombre<span style="color:red;"> (*)</span></span>
+            <input class="input" type="text" name="email" placeholder="Correo" value="<?= htmlspecialchars($login->__get('email')) ?>">
+            <span>Email<span style="color:red;"> (*)</span></span>
         </label>
-        <?php if (!empty($errors['nom'])): ?>
-            <p class="error"><?= $errors['nom'] ?></p>
-        <?php endif; ?>
 
-        <!-- Apellidos -->
-        <label>
-            <input class="input" type="text" name="cognoms" placeholder="Apellidos" value="<?= htmlspecialchars($lastName) ?>">
-            <span>Apellidos<span style="color:red;"> (*)</span></span>
-        </label>
-        <?php if (!empty($errors['cognoms'])): ?>
-            <p class="error"><?= $errors['cognoms'] ?></p>
+        <?php if (!empty($errors['email'])): ?>
+            <p class="error"><?= $errors['email'] ?></p>
         <?php endif; ?>
 
         <!-- Contraseña -->

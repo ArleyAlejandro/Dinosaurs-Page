@@ -1,13 +1,11 @@
 <?php
 class LoginModel{
-    private $name;
-    private $lastName;
+    private $email;
     private $pass;
     public $errors;
     
-    public function __construct($name, $lastName, $pass) {
-        $this->name = $name;
-        $this->lastName = $lastName;
+    public function __construct( $email, $pass) {
+        $this->email = $email;
         $this->pass = $pass;
     }
     

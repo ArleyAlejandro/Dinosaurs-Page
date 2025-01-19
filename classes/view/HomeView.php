@@ -41,7 +41,10 @@ class HomeView {
         </div>
             
         <div class="menu-principal">
-            <main>
+            <main>';
+        echo isset($_SESSION['usuario_logueado']) ?  '<span style="margin-right:20px;">Bienvenido ' . $_SESSION['nombre'] . '</span><a href="../inc/logout.php" style="color:black;">Clicka aquí para cerrar la sesión</a>' :  '<p>no se ha iniciado sesión </p>';
+
+            echo '
                 <h2>Introducción</h2>
                 <p>
                     Los dinosaurios, criaturas fascinantes y majestuosas que poblaron

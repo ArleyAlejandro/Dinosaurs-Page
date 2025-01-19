@@ -1,21 +1,25 @@
-
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+// error_reporting(E_ALL);
+// ini_set("display_errors", 1);
 
 session_start();
 define("__ROOT__", __DIR__ . "/../");
-include ("../assets/functions.php");
+include "../assets/functions.php";
+
+echo "Usuario: " . $_SESSION['usuario'] . "<br>";
+echo "Contraseña: " . $_SESSION['contraseña'] . "<br>";
+echo "Usuario logueado: " . $_SESSION['usuario_logueado'] . "<br>";
+echo "nombre completo: ". $_SESSION['nombre'] . "<br>";
 
 function my_autoload($classe)
 {
-    $carpetes = array(
+    $carpetes = [
         ".",
         "core",
         "controller",
         "model",
-        "view"
-    );
+        "view",
+    ];
 
     foreach ($carpetes as $carpeta) {
         if (file_exists(__ROOT__ . "classes/$carpeta/$classe.php")) {
@@ -27,13 +31,13 @@ function my_autoload($classe)
 
 function second_autoload($classe)
 {
-    $carpetes = array(
+    $carpetes = [
         ".",
         "core",
         "controller",
         "model",
-        "view"
-    );
+        "view",
+    ];
 
     foreach ($carpetes as $carpeta) {
         if (file_exists(__ROOT__ . "classes/$carpeta/$classe.class.php")) {
@@ -52,6 +56,3 @@ try {
 } catch (Exception $e) {
     ErrorView::show($e);
 }
-?>
-
-

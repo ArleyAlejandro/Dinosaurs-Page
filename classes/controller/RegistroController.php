@@ -1,7 +1,7 @@
 <?php
 
-// error_reporting(E_ALL);
-// ini_set("display_errors", 1);
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 class RegistroController
 {
 
@@ -39,6 +39,22 @@ class RegistroController
             $registro->__set("usuari", $usuari);
         }
 
+        if (empty($params["email"])) {
+            $registro->errors["email"] = "El email es obligatorio";
+        } else {
+            $email = sanitize($params["email"]);
+            $registro->__set("email", $email);
+        }
+
+        // Instancio un objeto QueryUser para comprobar si el usuario ya existe mediante una consulta a la base de datos
+        $queryUser  = new QueryUser();
+        $userExists = $queryUser->get($registro->__get('email'));
+
+        // Comprobar si el usuario existe en la base de datos
+        if ($userExists) {
+            $registro->errors["email"] = "El email ya existe, introduce otro";
+        }
+
         if (empty($params["contrasenya"])) {
             $registro->errors["contrasenya"] = "La contraseña es obligatoria.";
         } else {
@@ -61,15 +77,22 @@ class RegistroController
             }
         }
 
-        if (empty($params["dni"])) {
-            $registro->errors["dni"] = "El DNI es obligatorio.";
+        if (empty($params["tipoID"])) {
+            $registro->errors["tipoID"] = "El tipo de identificación es obligatorio.";
         } else {
-            $dniUser = sanitize($params["dni"]);
-            if (! preg_match('/^[0-9]{8}[A-Za-z]$/', $dniUser)) {
-                $registro->errors["dni"] = "El DNI no es válido. Debe tener 8 números seguidos de una letra.";
+            $tipoID = sanitize($params["tipoID"]);
+            if (! in_array($tipoID, ['DNI', 'NIE', ''])) {
+                $registro->errors["tipoID"] = "El tipo de identificación no es válido.";
             } else {
-                $registro->__set("dni", $dniUser);
+                $registro->__set("tipoID", $tipoID);
             }
+        }
+
+        if (empty($params["num_id"])) {
+            $registro->errors["num_id"] = "El número de identificación es obligatorio.";
+        } else {
+            $numIdUser = sanitize($params["num_id"]);
+            $registro->__set("num_id", $numIdUser);
         }
 
         if (! empty($params["data_naixement"])) {
@@ -93,7 +116,7 @@ class RegistroController
             if (! in_array($sex, [
                 'F',
                 'M',
-                ''
+                '',
             ])) {
                 $registro->errors["sexe"] = "El sexo seleccionado no es válido.";
             } else {
@@ -101,87 +124,92 @@ class RegistroController
             }
         }
 
-        if (empty($params["codi_postal"])) {
-            $registro->errors["codi_postal"] = "El código postal es obligatorio";
-        } else {
-            $codi_postal = sanitize($params["codi_postal"], "int");
-            $registro->__set("codi_postal", $codi_postal);
-        }
+        $provincia = sanitize($params["provincia"]);
+        $registro->__set("provincia", $provincia);
 
-        if (empty($params["poblacio"])) {
-            $registro->errors["poblacio"] = "La población es obligatoria";
-        } else {
-            $poblation = sanitize($params["poblacio"]);
-            $registro->__set("poblacio", $poblation);
-        }
+        $direccion = sanitize($params["direccion"]);
+        $registro->__set("direccion", $direccion);
 
-        if (! empty($params["telefon"])) {
-            $tel = sanitize($params["telefon"], "int");
+        $codi_postal = sanitize($params["codi_postal"], "int");
+        $registro->__set("codi_postal", $codi_postal);
+
+        $poblation = sanitize($params["poblacio"]);
+        $registro->__set("poblacio", $poblation);
+
+        // Si el teléfono no está vacío, comprobar que sea válido
+       if(!empty($params["telefon"])){
+        $tel = sanitize($params["telefon"], "int");
+        if (! validateItem($tel, "phone")) {
+            $registro->errors["telefon"] = "El teléfono no es válido";
+        } else {
             $registro->__set("telefon", $tel);
+        }
+       }
 
-            if (! validateItem($tel, "phone")) {
-                $registro->errors["telefon"] = "El teléfono no es válido";
+        // Manejar la subida de la imagen
+        if (empty($registro->errors)) {
+            if (isset($_FILES['imatge']) && $_FILES['imatge']['error'] !== UPLOAD_ERR_NO_FILE) {
+                if ($_FILES['imatge']['error'] === UPLOAD_ERR_OK) {
+                    $imagen             = $_FILES['imatge']['name'];
+                    $tipoImagen         = $_FILES['imatge']['type'];
+                    $tamanyoImagen      = $_FILES['imatge']['size'];
+                    $tiposValidos       = ['image/jpeg', 'image/png', 'image/gif'];
+                    $extensionesValidas = ['jpg', 'jpeg', 'png', 'gif'];
+                    $extensionImagen    = strtolower(pathinfo($imagen, PATHINFO_EXTENSION));
+
+                    if ($tamanyoImagen > 2 * 1024 * 1024) { // 2MB = 2 * 1024 * 1024 bytes
+                        $registro->errors['imatge'] = "El tamaño de la imagen no puede exceder los 2MB.";
+                    }
+                    if (! in_array($tipoImagen, $tiposValidos) || ! in_array($extensionImagen, $extensionesValidas)) {
+                        $registro->errors['imatge'] = "Solo se permiten imágenes en formatos JPG, PNG o GIF.";
+                    }
+
+                    $directorio             = '../uploads/';
+                    $rutaImagen             = $directorio . basename($imagen);
+
+                    if (empty($registro->errors['imatge'])) {
+                        if (move_uploaded_file($_FILES['imatge']['tmp_name'], $rutaImagen)) {
+                            $_SESSION['imagen'] = $rutaImagen;
+                        } else {
+                            $registro->errors['imatge'] = "Hubo un error al subir la imagen.";
+                        }
+                    }
+                } else {
+                    $registro->errors['imatge'] = "Hubo un error al procesar el archivo.";
+                }
+            } else {
+                $registro->errors['imatge'] = "La imagen es obligatoria.";
             }
         }
 
+        // Si no existen errores guardo los datos en la base de datos
         if (empty($registro->errors)) {
-            if (isset($_FILES['imatge']) && $_FILES['imatge']['error'] === UPLOAD_ERR_OK) {
-                $imagen = $_FILES['imatge']['name'];
-                $tipoImagen = $_FILES['imatge']['type'];
-                $tamanyoImagen = $_FILES['imatge']['size'];
-                $tiposValidos = [
-                    'image/jpeg',
-                    'image/png',
-                    'image/gif'
-                ];
-                $extensionesValidas = [
-                    'jpg',
-                    'jpeg',
-                    'png',
-                    'gif'
-                ];
-                $extensionImagen = strtolower(pathinfo($imagen, PATHINFO_EXTENSION));
+            $data = [
+                "name"      => $registro->__get("nom"),
+                "lastName"  => $registro->__get("cognoms"),
+                "userName"  => $registro->__get("usuari"),
+                "email"     => $registro->__get("email"),
+                "pass"      => password_hash($registro->__get("contrasenya"), PASSWORD_DEFAULT), // Hash de contraseña
+                "typeID"    => $registro->__get("tipoID"),
+                "num_id"    => $registro->__get("num_id"),
+                "birthdate" => $registro->__get("data_naixement"),
+                "gender"    => $registro->__get("sexe"),
+                "province"  => $registro->__get("provincia"),
+                "address"   => $registro->__get("direccion"),
+                "postal"    => $registro->__get("codi_postal"),
+                "poblation" => $registro->__get("poblacio"),
+                "phone"     => $registro->__get("telefon"),
+                "image"     => $_SESSION['imagen'],
+            ];
 
-                if ($tamanyoImagen > 2 * 1024 * 1024) { // 2MB = 2 * 1024 * 1024 bytes
-                    $registro->errors['imatge'] = "El tamaño de la imagen no puede exceder los 2MB.";
-                }
-                if (! in_array($tipoImagen, $tiposValidos) || ! in_array($extensionImagen, $extensionesValidas)) {
-                    $registro->error['imatge'] = "Solo se permiten imágenes en formatos JPG, PNG o GIF.";
-                }
-            }
+            $admin = new AdminUser();
+            $admin->set($data);
 
-            $directorio = '../uploads/';
-            $rutaImagen = $directorio . basename($imagen);
-            if (move_uploaded_file($_FILES['imatge']['tmp_name'], $rutaImagen)) {
-                // Imagen subida correctamente, almacenamos la ruta
-                $_SESSION['imagen'] = $rutaImagen;
-            } else {
-                $registro->errors['imatge'] = "Hubo un error al subir la imagen.";
-            }
+            $vConfirmacion = new ConfirmacionView();
+            $vConfirmacion->show();
 
-            // Crear los usuarios
-            $queryUser = new QueryUser();
-            $userExists = $queryUser->get($registro->__get('nom'));
-
-            if ($userExists) {
-                throw new Exception("Este nombre de usuario ya existe");
-            } else {
-
-                $data = [
-                    "name" => $registro->__get("nom"),
-                    "lastName" => $registro->__get("cognoms"),
-                    "userName" => $registro->__get("usuari"),
-                    "password" => $registro->__get("contrasenya"),
-                    "dni" => $registro->__get("dni"),
-                    "phoneNumber" => $registro->__get("telefon")
-                ];
-                $admin = new AdminUser();
-                $admin->set($data);
-
-                $vHome = new HomeView();
-                $vHome->show();
-            }
         } else {
+            // Mostrar el formulario con los errores
             $vReg = new RegistroView();
             $vReg->form($registro);
         }

@@ -8,7 +8,7 @@ abstract class DBAbstractModel {
 
     protected $db_name = 'myweb';
     protected $query;
-    protected $rows = array();
+    protected $rows = [];
 
     private $conn;
 
