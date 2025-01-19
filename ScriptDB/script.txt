@@ -1,3 +1,4 @@
+drop database myweb; 
 CREATE DATABASE myweb
   CHARACTER SET utf8
   COLLATE utf8_general_ci;
@@ -7,17 +8,37 @@ GRANT SELECT ON myweb.* TO 'usr_consulta'@'localhost';
 FLUSH PRIVILEGES;
 
 CREATE USER 'usr_generic'@'localhost' IDENTIFIED BY '2025@Thos';
-GRANT INSERT, UPDATE, DELETE, CREATE, DROP, ALTER ON myweb.* TO 'usr_generic'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON myweb.* TO 'usr_generic'@'localhost';
 FLUSH PRIVILEGES;
 
-use myweb;
+
 
 CREATE TABLE usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    apellidos VARCHAR(100) NOT NULL,
-    nombre_de_usuario VARCHAR(50) UNIQUE NOT NULL,
-    contraseña VARCHAR(255) NOT NULL, 
-    dni VARCHAR(20) UNIQUE NOT NULL,
-    numero_de_telefono VARCHAR(15)
+    id INT AUTO_INCREMENT PRIMARY KEY not null,
+    nombre VARCHAR(100) not null,
+    apellidos VARCHAR(100) not null,
+    nombre_de_usuario VARCHAR(50) not null,
+    email VARCHAR(100) not null,
+    contraseña VARCHAR(255) not null, 
+    tipoID enum('DNI','NIE') not null,
+	numero_identidad VARCHAR(20) not null,
+	fecha_nacimiento date not null ,
+    sexo enum('M', 'F') not null, 
+    direccion varchar(255) ,
+	provincia varchar(255), 
+    poblacion varchar(255),
+    codigo_postal int ,
+    numero_de_telefono VARCHAR(15),
+    ruta_img varchar(100)not null,
+    estado int default 0,
+    fecha_registro timestamp  DEFAULT CURRENT_TIMESTAMP,
+    ultimo_acceso timestamp  DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+use myweb;
+select * from usuarios;
+SELECT id, nombre, apellidos, nombre_de_usuario, email, contraseña, numero_identidad, numero_de_telefono FROM usuarios WHERE email = "arleyrodriguezmeno05@gmail.com";
+DELETE FROM usuarios ;
+
+UPDATE usuarios 
+            SET estado='1' WHERE email='arleyrodriguezmeno05@gmail.com'

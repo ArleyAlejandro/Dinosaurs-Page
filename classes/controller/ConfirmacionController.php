@@ -20,7 +20,7 @@ class ConfirmacionController
 
         $actualizarEstado = new AdminUser();
         $data             = ["email" => $_SESSION['usuario']];
-        $actualizarEstado->edit($data);
+        $actualizarEstado->editStatus($data);
 
         header("Location: index.php");
         exit();

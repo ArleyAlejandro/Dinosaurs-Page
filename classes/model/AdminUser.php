@@ -71,7 +71,7 @@ numero_identidad,fecha_nacimiento, sexo,direccion, provincia, codigo_postal, pob
         }
     }
 
-    public function edit($data = [])
+    public function editStatus($data = [])
     {
         // Verificar que el email esté presente en los datos
         if (array_key_exists('email', $data)) {
@@ -89,8 +89,31 @@ numero_identidad,fecha_nacimiento, sexo,direccion, provincia, codigo_postal, pob
             
         }
     }
-    
 
+    public function edit($user_data =[]) {
+        foreach ($user_data as $campo=>$valor) {
+            $$campo = $valor;
+            $this->query = "
+            UPDATE usuaris 
+            SET 
+                nom = '$nombre',
+                cognom = '$apellidos',
+                clau = '$contraseña',
+                tipus_identitat = '$tipoID',
+                numero_identitat = '$numero_identidad',
+                data_naixement = '$fech_nacimiento',
+                sexe = '$sexo',
+                direccio = '$direccion',
+                provincia = '$provincia',
+                codi_postal = '$codigo_postal',
+                poblacio = '$poblacion',
+                telefon = '$numero_de_telefono',
+                ruta_img = '$ruta_img'
+            WHERE email = '$this->email'
+        ";
+            $this->execute_single_query();
+        }
+    }
     public function delete($userName = '')
     {
 

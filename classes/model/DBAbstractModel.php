@@ -2,15 +2,23 @@
 
 abstract class DBAbstractModel {
 
-    protected static $db_host = 'localhost';
-    protected static $db_user = 'root';
-    protected static $db_pass = 'T51ntC_Xale01';
+    protected static $db_host ;
+    protected static $db_user ;
+    protected static $db_pass ;
 
     protected $db_name = 'myweb';
     protected $query;
     protected $rows = [];
 
     private $conn;
+
+    public function __construct() {
+        $config = Config::getInstance();
+        self::$db_host = $config->getHost();
+        self::$db_user = 'root'; 
+        self::$db_pass = 'T51ntC_Xale01'; 
+        $this->db_name = $config->getDbName();
+    }
 
     # mètodes abstractes per a ABM de classes que heretin
     abstract protected function get();

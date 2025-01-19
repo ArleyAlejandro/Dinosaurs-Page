@@ -1,6 +1,6 @@
 <?php
 
-class Potatoe {
+class Config {
     
     private static $_instance;
     
