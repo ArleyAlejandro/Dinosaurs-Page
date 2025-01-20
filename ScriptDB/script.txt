@@ -18,7 +18,7 @@ CREATE TABLE usuarios (
     nombre VARCHAR(100) not null,
     apellidos VARCHAR(100) not null,
     nombre_de_usuario VARCHAR(50) not null,
-    email VARCHAR(100) not null,
+    email VARCHAR(100) not null unique,
     contraseña VARCHAR(255) not null, 
     tipoID enum('DNI','NIE') not null,
 	numero_identidad VARCHAR(20) not null,
