@@ -8,7 +8,7 @@ class FrontController {
     public static function procesarSolicitud() {
         switch ($_SERVER['REQUEST_METHOD']) {
             case "GET":
-                $params = "";
+                $params = [];
                 if (count($_GET)==0) {
                     $controller_name = FrontController::DEFAULT_CONTROLLER;
                     $action = FrontController::DEFAULT_ACTION;
@@ -106,5 +106,6 @@ class FrontController {
         }
         return ($output);
     }
+
 }
 

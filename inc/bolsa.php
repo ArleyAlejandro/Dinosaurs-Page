@@ -17,7 +17,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idioma'])) { 
     $idioma = $_POST['idioma'];
     $_SESSION['idioma'] = $idioma;
-    setcookie('idioma', $idioma, time() + (86400 * 30), "/");
+    setcookie('idioma', $idioma, time() + 86400 * 30, "/");
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
@@ -27,9 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idioma'])) {
 $idioma = $_SESSION['idioma'] ?? $_COOKIE['idioma'] ?? 'es';
 
 if ($idioma === 'en') {
-    include 'lang/en.php';
+    include '../lang/en.php';
 } else {
-    include 'lang/es.php';
+    include '../lang/es.php';
 }
 
 // Array con los elementos de la cabezera de la tabla.
@@ -152,6 +152,6 @@ $_SESSION['valores_anteriores'] = $valores_anteriores;
     </form>
 </aside>
 <?php // Llamar a la función para pintar la tabla y guardar los valores en sesión
-pintaTabla($datosCabezera, $array, $lang, $valores_anteriores);?>
+echo html_pintaTabla($datosCabezera, $array, $lang, $valores_anteriores);?>
 </body>
 </html>
