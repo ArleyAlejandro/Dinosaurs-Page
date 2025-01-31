@@ -148,7 +148,7 @@ $_SESSION['valores_anteriores'] = $valores_anteriores;
         </select>
         <button type="submit"><?php echo $lang['save']; ?></button>
         <button type="button" onclick="location.reload();"><?php echo $lang['refresh']; ?></button>
-        <a id="back-to-home" href="Home.php">Volver al Home</a> 
+        <a id="back-to-home" href="index.php">Volver al Home</a> 
     </form>
 </aside>
 <?php // Llamar a la función para pintar la tabla y guardar los valores en sesión

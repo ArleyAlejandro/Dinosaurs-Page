@@ -26,7 +26,9 @@
 				<li><a href="?registro/show">Registro</a></li>
 				</ul>
 			</li>
-            <li><a href="bolsa.php">Bolsa</a></li>
+            <li><a href="?Bolsa/show">Bolsa</a></li>
+            <li><a href="?Calendar/show">Calendario</a></li>
+            <li><a href="">Mantenimiento</a></li>
           </ul>
         </nav>
       </header>
@@ -281,8 +283,7 @@
       </p>
     </main>
     <div class="botones">
-      <a href="Hom2.php" class="boton-retorno">Volver </a>
-
+      <a href="?Caracteritiques/show" class="boton-retorno">Volver </a>
     </div>
     <footer>
       <div>

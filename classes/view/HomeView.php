@@ -34,7 +34,9 @@ class HomeView {
                                 <li><a href="?registro/show">Registro</a></li>
                             </ul>
                         </li>
-                        <li><a href="?bolsa/show">Bolsa</a></li>
+                        <li><a href="?Bolsa/show">Bolsa</a></li>
+                        <li><a href="?Calendar/show">Calendario</a></li>
+                        <li><a href="">Mantenimiento</a></li>
                     </ul>
                 </nav>
             </header>
@@ -152,8 +154,8 @@ class HomeView {
                 de la vida en nuestro planeta.</p>
         </section>
         <div class="botones">
-            <a href="Home.php" class="boton-retorno">Volver </a> <a
-                href="Hom2.php" class="boton-siguiente">Siguiente</a>
+            <a href="?" class="boton-retorno">Volver </a> <a
+                href="?Caracteristiques/show" class="boton-siguiente">Siguiente</a>
         </div>
             
         <footer>

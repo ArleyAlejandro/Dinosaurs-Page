@@ -24,6 +24,8 @@
     						</ul>
     					</li>
                         <li><a href="bolsa.php">Bolsa</a></li>
+                        <li><a href="?Calendar/show">Calendario</a></li>
+                        <li><a href="">Mantenimiento</a></li>
                     </ul>
                 </nav>
             </header>
@@ -197,8 +199,8 @@
             </section>
         </main>
         <div class="botones">
-            <a href="Home.php" class="boton-retorno">Volver </a>
-            <a href="Home3.php" class="boton-siguiente">Siguiente</a>
+            <a href="?" class="boton-retorno">Volver </a>
+            <a href="?Conclusion/show" class="boton-siguiente">Siguiente</a>
         </div>
         <footer>
             <div>

@@ -100,6 +100,7 @@ header {
 }
 
 .menu {
+	list-style: none;
 	display: flex;
 	flex-wrap: wrap;
 	flex-grow: 1;
@@ -758,6 +759,44 @@ to {
 }
 }
 
+.calendar-wrapper{
+	display: flex;
+	justify-content: center;
+}
+
 .nb{
-	color: red;
+	color: black;
+	font-weight: bolder;
+}
+
+.tablacalendario{
+	border-collapse: unset;
+	width: 45em;
+}
+
+.tablacalendario tbody td{
+	padding: 15px;
+	background-color: #b0e4e4;
+}
+
+.tabla-interior{
+	width: 100%;
+}
+
+.messiguiente, .titmesano, .mesanterior {
+    background-color: white !important;
+	text-align: center;
+}
+
+.titmesano{
+	background-color: aqua !important;
+}
+
+.diainvalido, .diavalido{
+	background-color: white !important;
+}
+
+.diaactual{
+	background-color: blueviolet !important;
+	color: white !important;
 }

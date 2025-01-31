@@ -38,14 +38,33 @@ class CalendarView
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="author" content="Arley Rodríguez">
             <meta name="description" content="Actividad Final de Módulo \'Llenguatges de marques i sistemes de gestió d\'informació\'">
-        </head>';
+        </head>
+        <header>
+                <h1>Descubriendo el Mundo de los Dinosaurios</h1>
+                <nav class="contenedor-menu">
+                    <ul class="menu">
+                        <li><a href="?" id="inicio">Inicio</a></li>
+                        <li><a href="?Caracteristiques/show">Características</a></li>
+                        <li><a href="?Conclusion/show">Conclusión</a></li>
+                        <li><a href="?login/show">Login</a>
+                            <ul>
+                                <li><a href="?registro/show">Registro</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="?Bolsa/show">Bolsa</a></li>
+                        <li><a href="?Calendar/show">Calendario</a></li>
+                        <li><a href="">Mantenimiento</a></li>
+                    </ul>
+                </nav>
+            </header>
+        ';
 
         // Construyo la tabla general
-        echo '<table class="tablacalendario" cellspacing="3" cellpadding="2" border="0">';
+        echo '<div class="calendar-wrapper"><table class="tablacalendario" cellspacing="3" cellpadding="2" border="0">';
         echo '<tr><td colspan="7" class="tit">';
     
         // Tabla para mostrar el mes, año y controles para pasar al mes anterior y siguiente
-        echo '<table width="100%" cellspacing="2" cellpadding="2" border="0"><tr><td class="messiguiente">';
+        echo '<table class="tabla-interior" width="100%" cellspacing="2" cellpadding="2" border="0"><tr><td class="messiguiente">';
         
         // Calculo el mes y año del mes anterior
         $mes_anterior = $mes - 1;
@@ -263,7 +282,7 @@ class CalendarView
 
            <br>
 
-           </form>';
+           </form></div>';
     }
 
     /**

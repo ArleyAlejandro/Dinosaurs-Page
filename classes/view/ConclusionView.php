@@ -6,6 +6,7 @@ class ConclusionView {
     
     public function show() {
         include __ROOT__ . "inc/Conclusion.php";
+       
         
     }
 }
