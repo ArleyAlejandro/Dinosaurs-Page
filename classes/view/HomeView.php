@@ -36,7 +36,7 @@ class HomeView {
                         </li>
                         <li><a href="?Bolsa/show">Bolsa</a></li>
                         <li><a href="?Calendar/show">Calendario</a></li>
-                        <li><a href="">Mantenimiento</a></li>
+                        <li><a href="?Mantenimiento/show">Mantenimiento</a></li>
                     </ul>
                 </nav>
             </header>

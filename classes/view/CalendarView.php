@@ -6,9 +6,9 @@ class CalendarView
     public function __contruct()
     {}
 
-    public function show($mes, $ano)
+    public function show($mes, $ano, $events = [])
     {
-        $this->mostrar_calendario($mes, $ano);
+        $this->mostrar_calendario($mes, $ano, $events);
         // $this->formularioCalendario($mes, $ano);
     }
 
@@ -18,7 +18,7 @@ class CalendarView
      * @param mixed $ano año a mostrar
      * @return void
      */
-    public function mostrar_calendario($mes, $ano)
+    public function mostrar_calendario($mes, $ano, $events)
     {
         // Obtengo la fecha actual
         $dia_actual_sistema = date('d'); // Día actual
@@ -53,7 +53,7 @@ class CalendarView
                         </li>
                         <li><a href="?Bolsa/show">Bolsa</a></li>
                         <li><a href="?Calendar/show">Calendario</a></li>
-                        <li><a href="">Mantenimiento</a></li>
+                        <li><a href="?Mantenimiento/show">Mantenimiento</a></li>
                     </ul>
                 </nav>
             </header>
@@ -73,7 +73,7 @@ class CalendarView
             $ano_anterior--;
             $mes_anterior = 12;
         }
-        echo '<a href="index.php?/Calendar/show/' . $mes_anterior . '/' . $ano_anterior . '"><span class="nb">back</span></a></td>';
+        echo '<a href="index.php?/Calendar/show/' . $mes_anterior . '/' . $ano_anterior . '"><span class="nb"><<</span></a></td>';
         echo '<td class="titmesano">' . $nombre_mes . " " . $ano . '</td>';
         echo '<td class="mesanterior">';
     
@@ -84,7 +84,7 @@ class CalendarView
             $ano_siguiente++;
             $mes_siguiente = 1;
         }
-        echo '<a href="index.php?/Calendar/show/' . $mes_siguiente . '/' . $ano_siguiente . '"><span class="nb">next</span></a></td>';
+        echo '<a href="index.php?/Calendar/show/' . $mes_siguiente . '/' . $ano_siguiente . '"><span class="nb">>></span></a></td>';
     
         // Finalizo la tabla de cabecera
         echo '</tr></table>';
@@ -164,6 +164,29 @@ class CalendarView
     
         echo "</tr>";
         echo "</table>";
+
+        echo "<h2>Eventos en " . $this->dame_nombre_mes($mes) . " $ano</h2>";
+        if (count($events) > 0) {
+            echo "<ul>";
+            foreach ($events as $event) {
+                echo "<li>{$event['event_title']} - {$event['event_date']}</li>";
+            }
+            echo "</ul>";
+        } else {
+            echo "<p>No hay eventos para este mes.</p>";
+        }
+
+        // Formulario para crear evento
+        echo '<h3>Crear Evento</h3>';
+        echo '<form action="index.php?/Event/create" method="POST">
+                <label for="title">Título</label><br>
+                <input type="text" id="title" name="title" required><br><br>
+                <label for="date">Fecha</label><br>
+                <input type="date" id="date" name="date" required><br><br>
+                <label for="description">Descripción</label><br>
+                <textarea id="description" name="description"></textarea><br><br>
+                <input type="submit" value="Crear Evento">
+              </form>';
     }
     
 

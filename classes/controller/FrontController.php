@@ -23,7 +23,6 @@ class FrontController {
                     if (isset($url[0])) {
                         $controller_name = ucwords($url[0]);
                         
-                        
                         if ($controller_name == "Confirmacion" && isset($url[1]) && $url[1] == "confirmarCorreo") {
                             $action = "confirmarCorreo";
                         } else if (isset($url[1])) {
@@ -68,8 +67,6 @@ class FrontController {
                 
             default:
                 throw new Exception ("Mètode no suportat");
-                break;
-                
         }
     }
     
