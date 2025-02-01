@@ -165,28 +165,9 @@ class CalendarView
         echo "</tr>";
         echo "</table>";
 
-        echo "<h2>Eventos en " . $this->dame_nombre_mes($mes) . " $ano</h2>";
-        if (count($events) > 0) {
-            echo "<ul>";
-            foreach ($events as $event) {
-                echo "<li>{$event['event_title']} - {$event['event_date']}</li>";
-            }
-            echo "</ul>";
-        } else {
-            echo "<p>No hay eventos para este mes.</p>";
-        }
+     
 
-        // Formulario para crear evento
-        echo '<h3>Crear Evento</h3>';
-        echo '<form action="index.php?/Event/create" method="POST">
-                <label for="title">Título</label><br>
-                <input type="text" id="title" name="title" required><br><br>
-                <label for="date">Fecha</label><br>
-                <input type="date" id="date" name="date" required><br><br>
-                <label for="description">Descripción</label><br>
-                <textarea id="description" name="description"></textarea><br><br>
-                <input type="submit" value="Crear Evento">
-              </form>';
+       
     }
     
 
@@ -361,6 +342,56 @@ class CalendarView
 
     return $meses[$mes] ?? "Mes no válido";
 }
-
+  
+public function mostrarEventos($events) {
+    
+    // Verificar si hay eventos
+    if (!empty($events)) {
+        echo "<div class=\"calendar-wrapper\"><h3>Eventos para este mes:</h3>";
+        echo "<table border='1' class=\"calendar-table\"> ";
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th>Título</th>";
+        echo "<th>Fecha de Inicio</th>";
+        echo "<th>Hora de Inicio</th>";
+        echo "<th>Fecha de Fin</th>";
+        echo "<th>Hora de Fin</th>";
+        echo "<th>Descripción</th>";
+        echo "<th>Categoria</th>";
+        echo "<th>Acciones</th>";
+        echo "</tr>";
+        echo "</thead>";
+        echo "<tbody>";
+        
+        foreach ($events as $event) {
+            echo "<tr>";
+            echo "<td class=\"no-w\">" . htmlspecialchars($event['title']) . "</td>";
+            echo "<td>" . htmlspecialchars($event['startDate']) . "</td>";
+            echo "<td>" . htmlspecialchars($event['startTime']) . "</td>";
+            echo "<td>" . htmlspecialchars($event['endDate']) . "</td>";
+            echo "<td>" . htmlspecialchars($event['endTime']) . "</td>";
+            echo "<td>" . htmlspecialchars($event['description']) . "</td>";
+            echo "<td>" . (!empty($event['categoria']) ? htmlspecialchars($event['categoria']) : "Sin categoría") . "</td>";
+            echo "<td class=\"no-w\">";
+            
+            // Botón para editar
+            echo "<a href='edit_event.php?id=" . $event['id'] . "'><button>Editar</button></a> ";
+            
+            // Botón para eliminar
+            echo "<a href='delete_event.php?id=" . $event['id'] . "'><button>Eliminar</button></a>";
+            
+            echo "</td>";
+            echo "</tr>";
+        }
+        
+        echo "</tbody>";
+        echo "</table>";
+        echo "</div>";
+    } else {
+        echo "<p>No hay eventos disponibles.</p>";
+    }
+    
+    echo "</div>";
+}
 
 }

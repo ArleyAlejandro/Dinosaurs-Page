@@ -95,7 +95,6 @@ class FrontController {
                 break;
             case 'string':
             default:
-                //$filter = FILTER_SANITIZE_STRING; Deprecated
                 $filter = FILTER_SANITIZE_FULL_SPECIAL_CHARS;
                 $flags = FILTER_FLAG_NO_ENCODE_QUOTES;
                 $output = filter_var($var, $filter, $flags);

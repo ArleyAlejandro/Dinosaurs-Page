@@ -760,8 +760,7 @@ to {
 }
 
 .calendar-wrapper{
-	display: flex;
-	justify-content: center;
+	display: block;
 }
 
 .nb{
@@ -772,6 +771,7 @@ to {
 .tablacalendario{
 	border-collapse: unset;
 	width: 45em;
+	margin: 0 auto;
 }
 
 .tablacalendario tbody td{
@@ -801,3 +801,16 @@ to {
 	color: white !important;
 }
 
+
+.no-w{
+	white-space: nowrap;
+}
+
+.calendar-table{
+	margin: 35px auto;
+	
+}
+
+.calendar-wrapper{
+	text-align: center;
+}

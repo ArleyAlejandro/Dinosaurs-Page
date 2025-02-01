@@ -4,5 +4,7 @@
 		<host>localhost</host>
 		<db_name>myweb</db_name>
 		<port>3006</port>
+		<username>usr_generic</username>
+		<password>2025@Thos</password>
 	</base_de_dades>
 </configuracio>
