@@ -8,20 +8,27 @@ class MantenimientoController
     
     public function show($params=null) {
         
-        $vMantenimiento = new MantenimientoView();
-        $vMantenimiento->show();
-       
-       self::mostrarEventos();
-
-//         $show = new MantenimientoModel();
-//         $events = $show->getAll();
-//         var_dump($events);
+        // Comprobar si el usuario ya ha iniciado sesión, para permitirle el acceso a la página de mantenimiento
+        if (isset($_SESSION['usuario_logueado']) and $_SESSION['usuario_logueado'] === true) {
+            // Se muestra la página de mantenimiento y sus eventos
+            $vMantenimiento = new MantenimientoView();
+            $vMantenimiento->show();
+            self::mostrarEventos();
+        }else{
+            // Se crea un mensaje de redirección para mostrarlo en el login ( "Debe iniciar sesión para
+            // acceder a la página de Mantenimiento" )
+            $_SESSION['mensajeDeRedireccion'] = true;
+            
+            // Se redirige a la pág de Login para q se inicie sesión 
+            header("Location: ?Login/show"); 
+        }
+        
     }
     
     public function form($params){
         $eventForm = new MantenimientoModel();
         
-        // Sanatizar y validar datos
+        // Sanatizar y validar datos del formulario para crear eventos 
         
         // título
         if (empty($params["title"])) {

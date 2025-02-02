@@ -49,17 +49,16 @@ class LoginController
         $login = new LoginModel($email, $pass);
 
         if (! empty($errors)) {
-            $login->errors = $errors;
-            
+            $login->errors = $errors; 
         }else{
 
             $_SESSION['usuario_logueado'] = true;
             $_SESSION['nombre'] = $consultaPass->nombre . " " . $consultaPass->apellidos;
 
-           
-
-            header('Location: index.php');
+            unset($_SESSION["mensajeDeRedireccion"]);
+            header("Location: index.php"); 
         }
+        
         $vlogin = new LoginView();
         $vlogin->form($login);
     }

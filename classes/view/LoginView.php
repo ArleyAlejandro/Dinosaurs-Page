@@ -15,9 +15,14 @@ class LoginView{
                 </head>
                 <body class="login">
                     <form class="form" method="post" action="">
-                        <p class="title">Login</p>
-                            
-                        <!-- Email -->
+                        <p class="title">Login</p>';
+    
+        
+        if (isset($_SESSION["mensajeDeRedireccion"]) and $_SESSION["mensajeDeRedireccion"] === true) {
+            echo "<p class=\"error\">Debes iniciar sesisión para acceder a la página de Mantenimiento </p>";
+                }
+                
+                echo '<!-- Email -->
                         <label>
                             <input class="input" type="text" name="email" placeholder="Correo">
                             <span>Email<span style="color:red;"> (*)</span></span>
