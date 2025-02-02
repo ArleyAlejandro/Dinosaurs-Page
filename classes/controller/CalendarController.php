@@ -30,6 +30,7 @@ class CalendarController
     }
     
     public function mostrarEventos($mes, $ano) {
+       
         // Obtener el primer y último día del mes seleccionado
         $firstDate = (new DateTime("$ano-$mes-01"))->format('Y-m-d');
         $lastDate = (new DateTime("$ano-$mes-01"))->modify('last day of this month')->format('Y-m-d');

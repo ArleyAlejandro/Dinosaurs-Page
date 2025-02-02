@@ -39,6 +39,8 @@ class CalendarView
             <meta name="author" content="Arley Rodríguez">
             <meta name="description" content="Actividad Final de Módulo \'Llenguatges de marques i sistemes de gestió d\'informació\'">
         </head>
+    <body> <div class="contenedor"> 
+        <div class="menu-nav">
         <header>
                 <h1>Descubriendo el Mundo de los Dinosaurios</h1>
                 <nav class="contenedor-menu">
@@ -57,6 +59,7 @@ class CalendarView
                     </ul>
                 </nav>
             </header>
+        </div>
         ';
 
         // Construyo la tabla general
@@ -358,7 +361,6 @@ public function mostrarEventos($events) {
         echo "<th>Hora de Fin</th>";
         echo "<th>Descripción</th>";
         echo "<th>Categoria</th>";
-        echo "<th>Acciones</th>";
         echo "</tr>";
         echo "</thead>";
         echo "<tbody>";
@@ -366,19 +368,12 @@ public function mostrarEventos($events) {
         foreach ($events as $event) {
             echo "<tr>";
             echo "<td class=\"no-w\">" . htmlspecialchars($event['title']) . "</td>";
-            echo "<td>" . htmlspecialchars($event['startDate']) . "</td>";
-            echo "<td>" . htmlspecialchars($event['startTime']) . "</td>";
-            echo "<td>" . htmlspecialchars($event['endDate']) . "</td>";
-            echo "<td>" . htmlspecialchars($event['endTime']) . "</td>";
+            echo "<td class=\"no-w\">" . htmlspecialchars($event['startDate']) . "</td>";
+            echo "<td class=\"no-w\">" . htmlspecialchars($event['startTime']) . "</td>";
+            echo "<td class=\"no-w\">" . htmlspecialchars($event['endDate']) . "</td>";
+            echo "<td class=\"no-w\">" . htmlspecialchars($event['endTime']) . "</td>";
             echo "<td>" . htmlspecialchars($event['description']) . "</td>";
             echo "<td>" . (!empty($event['categoria']) ? htmlspecialchars($event['categoria']) : "Sin categoría") . "</td>";
-            echo "<td class=\"no-w\">";
-            
-            // Botón para editar
-            echo "<a href='edit_event.php?id=" . $event['id'] . "'><button>Editar</button></a> ";
-            
-            // Botón para eliminar
-            echo "<a href='delete_event.php?id=" . $event['id'] . "'><button>Eliminar</button></a>";
             
             echo "</td>";
             echo "</tr>";
@@ -391,7 +386,7 @@ public function mostrarEventos($events) {
         echo "<p>No hay eventos disponibles.</p>";
     }
     
-    echo "</div>";
+    echo "</div> </div></body>";
 }
 
 }

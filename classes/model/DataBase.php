@@ -7,7 +7,6 @@ class DataBase
     private $query;
     protected $eventData;
     protected $rows = array();
-    private $bind_prepare = "ssss";
     private $conn;
     private $configuration;
     
@@ -49,7 +48,6 @@ class DataBase
     public function executeQuery($query, $types = null, $params = [])
     {
         if (empty($query)) {
-            // Agrega una validación para evitar pasar una consulta vacía
             echo "Query is empty!";
             return [];
         }
