@@ -33,6 +33,7 @@ class Config {
     public function getName()     { return $this->username; }
     public function getPass()     { return $this->password; }
     
+    // Verifica si ya existe un objeto
     public static function getInstance(){
         if (is_null(self::$_instance)){
             self::$_instance = new self();

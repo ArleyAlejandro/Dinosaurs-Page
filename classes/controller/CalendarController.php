@@ -25,7 +25,19 @@ class CalendarController
         $vCalendar = new CalendarView();
         $vCalendar->show($mes, $ano);
         
+        
+        // Obtener el primer y último día del mes seleccionado
+        $firstDate = (new DateTime("$ano-$mes-01"))->format('Y-m-d');
+        $lastDate = (new DateTime("$ano-$mes-01"))->modify('last day of this month')->format('Y-m-d');
+        
+        // Instanciar el modelo
+        $mantenimientoModel = new MantenimientoModel();
+        
+        // Obtener los eventos dentro del rango de fechas
+        $eventos = $mantenimientoModel->getBetweenDates($firstDate, $lastDate);
+        
         // Mostrar eventos del mes seleccionado
+        $vCalendar->mostrar_calendario($mes, $ano, $eventos);
         $this->mostrarEventos($mes, $ano);
     }
     

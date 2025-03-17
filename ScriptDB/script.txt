@@ -41,4 +41,98 @@ SELECT id, nombre, apellidos, nombre_de_usuario, email, contraseña, numero_iden
 DELETE FROM usuarios ;
 
 UPDATE usuarios 
-            SET estado='1' WHERE email='arleyrodriguezmeno05@gmail.com'
+            SET estado='1' WHERE email='arleyrodriguezmeno05@gmail.com';
+
+
+CREATE TABLE events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) not null,
+    startDate DATE not null,
+    startTime TIME not null,
+    endDate DATE not null,
+	endTime TIME not null,
+    description VARCHAR(200) not null,
+    categoria varchar(100)
+);
+
+DROP TABLE events;
+
+INSERT INTO events (title, startDate, startTime, endDate, endTime, description)  
+VALUES  
+('Reunión de equipo',  
+ '2025-02-05',  
+ '14:30:00',  
+ '2025-02-05',  
+ '15:30:00',  
+ 'Revisión de los avances del proyecto.'),  
+
+('Reunión de planificación',  
+ '2025-02-10',  
+ '03:20:00',  
+ '2025-02-10',  
+ '04:00:00',  
+ 'Planificación de tareas para la próxima semana.'),  
+
+('Presentación de resultados',  
+ '2025-02-15',  
+ '10:00:00',  
+ '2025-02-15',  
+ '12:00:00',  
+ 'Exposición de métricas y objetivos alcanzados.'),  
+
+('Taller de capacitación',  
+ '2025-02-20',  
+ '08:00:00',  
+ '2025-02-20',  
+ '11:00:00',  
+ 'Capacitación sobre nuevas herramientas de desarrollo.'),  
+
+('Conferencia de tecnología',  
+ '2025-02-25',  
+ '16:00:00',  
+ '2025-02-25',  
+ '18:30:00',  
+ 'Ponencias sobre las últimas tendencias en tecnología.'),  
+
+('Lanzamiento de producto',  
+ '2025-03-02',  
+ '09:30:00',  
+ '2025-03-02',  
+ '11:00:00',  
+ 'Presentación oficial de un nuevo producto.'),  
+
+('Hackathon de programación',  
+ '2025-03-10',  
+ '14:00:00',  
+ '2025-03-11',  
+ '14:00:00',  
+ 'Competencia de programación con premios para los mejores equipos.'),  
+
+('Revisión de código',  
+ '2025-03-15',  
+ '11:00:00',  
+ '2025-03-15',  
+ '12:30:00',  
+ 'Análisis de código y mejoras en rendimiento.'),  
+
+('Reunión de cierre de trimestre',  
+ '2025-03-20',  
+ '10:00:00',  
+ '2025-03-20',  
+ '12:00:00',  
+ 'Evaluación de logros y planificación del próximo trimestre.'),  
+
+('Evento de networking',  
+ '2025-03-28',  
+ '18:00:00',  
+ '2025-03-28',  
+ '20:00:00',  
+ 'Oportunidad para hacer contactos profesionales en el sector.');  
+
+
+select * from events;
+select * from events where id like 2;
+select * from events where startDate between '2024-10-1' and '2025-02-7';
+
+delete from events;
+Delete FROM events WHERE id like 28;

@@ -137,7 +137,7 @@ class MantenimientoView
         	<?= !empty($errors['endTime']) ? "<p class='error'>{$errors['endTime']}</p>" : '' ?>
         
             <label for="description">Descripción</label><br>
-            <textarea id="description" name="description"><?= htmlspecialchars($description); ?>"</textarea><br>
+            <textarea id="description" name="description"><?= htmlspecialchars($description); ?></textarea><br>
         	<?= !empty($errors['description']) ? "<p class='error'>{$errors['description']}</p>" : '' ?>
         
             <label for="categoria">Categoría</label><br>
@@ -174,7 +174,7 @@ class MantenimientoView
             
             foreach ($events as $event) {
                 echo "<tr>";
-                echo "<td class=\"no-w\">" . htmlspecialchars($event['title']) . "</td>";
+                echo "<td>" . htmlspecialchars($event['title']) . "</td>";
                 echo "<td class=\"no-w\">" . htmlspecialchars($event['startDate']) . "</td>";
                 echo "<td class=\"no-w\">" . htmlspecialchars($event['startTime']) . "</td>";
                 echo "<td class=\"no-w\">" . htmlspecialchars($event['endDate']) . "</td>";
@@ -240,9 +240,15 @@ class MantenimientoView
         ';
         
         // Formulario para crear evento
+//         echo "<pre>";
+//         print_r($params[0]);
+//         echo "</pre>";
+        
         echo '<div class="flex">
                     
-        <form action="" method="POST">
+        <form action="?Mantenimiento/updateOne/'.$params[0]["id"].'" method="POST">
+            <input type="hidden" name="id" value="'.$params[0]["id"].'">
+
             <label for="title">Título</label><br>
             <input type="text" id="title" name="title" value="'.$params[0]["title"].'"><br><br>
                     
@@ -264,7 +270,7 @@ class MantenimientoView
             <label for="categoria">Categoría</label><br>
             <input type="text" id="categoria" name="categoria" value="'.$params[0]["categoria"].'"><br><br>
                     
-            <input type="submit" value="Crear Evento">
+            <input type="submit" value="Actualizar Evento">
         </form>
                     
         </body>

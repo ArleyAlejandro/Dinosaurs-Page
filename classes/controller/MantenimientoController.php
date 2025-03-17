@@ -24,6 +24,7 @@ class MantenimientoController
 
             // Se redirige a la pág de Login para q se inicie sesión
             header("Location: ?Login/show");
+            exit();
         }
     }
 
@@ -47,30 +48,35 @@ class MantenimientoController
                 "categoria" => $eventForm->__get("categoria")
             ];
 
-           if (empty($params)) {
-               self::crearEvento($eventForm, $data);
-           }else{
-               // Recibir el id desde parámetros
-               if (!empty($params) && isset($params[0])) {
-                   $id = filter_var($params[0], FILTER_VALIDATE_INT) ?: $id;
-               }
-               
-               // Cargar el evento desde la base de datos
-               $eventModel = new MantenimientoModel();
-               $event = $eventModel->getOneById($id);
-               
-               // Si el evento existe, actualizar
-               if ($event) {
-                   // Actualizar evento en la base de datos
-                   $eventModel->updateEvent($id, $data); // Se asume que tienes una función updateEvent() para actualizar el evento
-                   
-                   // Luego de actualizar, redirigir a la vista de eventos
-                   header("Location: ?Mantenimiento/show");
-               } else {
-                   // Redirigir si el evento no se encuentra
-                   header("Location: ?Mantenimiento/show");
-               }
-           }
+            self::crearEvento($eventForm, $data);
+
+            // echo "<pre>";
+            // var_dump($params);
+            // echo "</pre>";
+
+            // Recibir el id desde parámetros
+            if (! empty($params) && isset($params[0])) {
+
+                $id = filter_var($params[0], FILTER_VALIDATE_INT) ?: $id;
+
+                // Cargar el evento desde la base de datos
+                $eventModel = new MantenimientoModel();
+                $event = $eventModel->getOneById($id);
+
+                // Si el evento existe, actualizar
+                if ($event) {
+                    // Actualizar evento en la base de datos
+                    $eventModel->updateEvent($id, $data);
+
+                    // Luego de actualizar, redirigir a la vista de eventos
+                    header("Location: ?Mantenimiento/show");
+                    exit();
+                } else {
+                    // Redirigir si el evento no se encuentra
+                    header("Location: ?Mantenimiento/show");
+                    exit();
+                }
+            }
 
             // Si hay errores muestro el formulario con los errores
         } else {
@@ -85,17 +91,14 @@ class MantenimientoController
         $newEvent = new MantenimientoModel();
         $newEvent->createEvent($data);
 
-        $showEventView = new MantenimientoView();
-        $showEventView->show();
-        self::mostrarEventos();
+        // Redirigir a la vista de eventos después de la creación
+        header("Location: ?Mantenimiento/show");
+        exit();
     }
 
     public function mostrarEventos()
     {
-        // Instanciar el modelo
         $mantenimientoModel = new MantenimientoModel();
-
-        // Obtener todos los eventos
         $eventos = $mantenimientoModel->getAll();
 
         // Pasar los eventos a la vista
@@ -119,37 +122,58 @@ class MantenimientoController
 
         // Redirigir para q se vuelva a cargar la página
         header("Location: ?Mantenimiento/show");
+        exit();
     }
 
     public function updateOne($params)
     {
-        // Recibir el id desde parámetros
-        if (!empty($params) && isset($params[0])) {
-            $id = filter_var($params[0], FILTER_VALIDATE_INT) ?: $id;
-        }
-        
+        $id = filter_var($params[0], FILTER_VALIDATE_INT);
         // Cargar el evento desde la base de datos
         $eventModel = new MantenimientoModel();
         $event = $eventModel->getOneById($id);
-        
-//         // Si el evento existe, actualizar
-//         if ($event) {
-//             // Actualizar evento en la base de datos
-//             $eventModel->updateEvent($id, $data); 
-            
-//             // Luego de actualizar, redirigir a la vista de eventos
-//             header("Location: ?Mantenimiento/show");
-//         } else {
-//             // Redirigir si el evento no se encuentra
-//             header("Location: ?Mantenimiento/show");
-//         }
-        
-        $view = new MantenimientoView();
-        $view->updateOne($event);
-        $view->mostrarEventos($event);
-        
+
+        // Verificar si el evento existe
+        if (isset($event)) {
+
+            $view = new MantenimientoView();
+            $view->updateOne($event);
+            $view->mostrarEventos($event);
+
+            // Si el formulario fue enviado y no hay errores, actualizar el evento
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                // Recoger los datos del formulario
+                $data = [
+
+                    "title" => $_POST['title'],
+                    "startDate" => $_POST['startDate'],
+                    "startTime" => $_POST['startTime'],
+                    "endDate" => $_POST['endDate'],
+                    "endTime" => $_POST['endTime'],
+                    "description" => $_POST['description'],
+                    "categoria" => $_POST['categoria']
+                ];
+
+                // Validar los datos si es necesario
+                self::validateFields($eventModel, $data);
+
+                // Si no hay errores, hacer el update
+                if (empty($eventModel->errors)) {
+
+                    if ($_POST['id']) {
+                        $eventModel->updateEvent($_POST['id'], $data);
+
+                        header("Location: ?Mantenimiento/show");
+                        exit();
+                    }
+                }
+            }
+        } else {
+
+            // Redirigir si no se encuentra el evento
+            header("Location: ?Mantenimiento/show");
+            exit();
+        }
     }
-    
 
     public function validateFields(MantenimientoModel $eventForm, $params)
     {
@@ -228,14 +252,14 @@ class MantenimientoController
             $eventForm->errors["endTime"] = "La hora de fin es obligatoria";
         }
 
-        if (! empty("description")) {
+        if (! empty($params["description"])) {
             $description = sanitize($params["description"]);
             $eventForm->__set("description", $description);
         } else {
             $eventForm->errors["description"] = "La descripción es obligatoria";
         }
 
-        if (! empty("categoria")) {
+        if (! empty($params["categoria"])) {
             $categoria = sanitize($params["categoria"]);
             $eventForm->__set("categoria", $categoria);
         }

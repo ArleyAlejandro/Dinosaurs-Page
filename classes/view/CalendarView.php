@@ -3,13 +3,12 @@
 class CalendarView
 {
 
-    public function __contruct()
+    public function __construct()
     {}
 
     public function show($mes, $ano, $events = [])
     {
-        $this->mostrar_calendario($mes, $ano, $events);
-        // $this->formularioCalendario($mes, $ano);
+       
     }
 
      /**
@@ -117,17 +116,15 @@ class CalendarView
         echo "<tr>";
         for ($i = 0; $i < 7; $i++) {
             if ($i < $numero_dia) {
-                // Si el día de la semana i es menor que el número del primer día de la semana no pongo nada en la celda
                 echo '<td class="diainvalido"><span></span></td>';
             } else {
-                // Verifico si es el día actual
-                if ($dia_actual == $dia_actual_sistema && $mes == $mes_actual_sistema && $ano == $ano_actual_sistema) {
-                    // Si es el día actual, asigno una clase CSS especial
-                    echo '<td class="diavalido diaactual"><span>' . $dia_actual . '</span></td>';
-                } else {
-                    // Si no es el día actual, asigno la clase normal
-                    echo '<td class="diavalido"><span>' . $dia_actual . '</span></td>';
-                }
+                // Verificar si el día tiene un evento
+                $fecha_actual = sprintf('%04d-%02d-%02d', $ano, $mes, $dia_actual);
+                $clase_evento = array_filter($events, function ($evento) use ($fecha_actual) {
+                    return $evento['startDate'] == $fecha_actual;
+                }) ? 'evento-dia' : '';
+                
+                echo '<td class="diavalido ' . $clase_evento . '"><span>' . $dia_actual . '</span></td>';
                 $dia_actual++;
             }
         }

@@ -32,6 +32,8 @@ class ErrorView
                             </ul>
                         </li>
                         <li><a href="?bolsa/show">Bolsa</a></li>
+                        <li><a href="?Calendar/show">Calendario</a></li>
+                        <li><a href="?Mantenimiento/show">Mantenimiento</a></li>
                     </ul>
                 </nav>
             </header>

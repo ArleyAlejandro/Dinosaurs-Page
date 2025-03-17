@@ -285,8 +285,7 @@ a {
 table {
 	border: 5px #3d6e7a solid;
 	border-collapse: collapse;
-	margin: 1em 0;
-	width: 30em;
+	margin: 2em;
 }
 
 thead {
@@ -784,7 +783,7 @@ to {
 }
 
 .tabla-interior{
-	width: 100%;
+	width: 85%;
 }
 
 .messiguiente, .titmesano, .mesanterior {
@@ -818,3 +817,10 @@ to {
 .calendar-wrapper{
 	text-align: center;
 }
+
+.evento-dia {
+    background-color: #ffcc00;
+    font-weight: bold;
+    color: #000;
+}
+	
